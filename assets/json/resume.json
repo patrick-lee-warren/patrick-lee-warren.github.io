@@ -1,24 +1,22 @@
 {
   "basics": {
-    "name": "Albert Einstein",
-    "label": "Scientist",
+    "name": "Patrick L. Warren",
+    "label": "Economist",
     "image": "",
-    "email": "albert@einstein.de",
-    "phone": "(912) 123-4567",
-    "url": "https://alshedivat.github.io/al-folio/",
-    "summary": "A German-born theoretical physicist, widely ranked among the greatest and most influential scientists of all time",
+    "email": "patrick.lee.warren@gmail.com",
+    "url": "https://patrick-lee-warren.github.io/",
+    "summary": "Applied IO/PE Economist Who Studies the Information Environment and Online Deception",
     "location": {
-      "address": "2712 Broadway St",
-      "postalCode": "CA 94115",
-      "city": "San Francisco",
+      "address": "309F Powers Hall",
+      "postalCode": "SC 29634",
+      "city": "Clemson",
       "countryCode": "US",
-      "region": "California"
     },
     "profiles": [
       {
         "network": "Twitter",
-        "username": "AlbertEinstein",
-        "url": "https://twitter.com/AlbertEinstein"
+        "username": "plwarre",
+        "url": "https://twitter.com/plwarre"
       }
     ]
   },
