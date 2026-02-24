@@ -38,7 +38,7 @@ This page summarizes the current CV source in [`pwarren_cv091625.tex`]({{ '/pwar
 
 ## Selected Professional Roles and Service
 
-- Associate Editor, *Public Finance Review* (2017-2020)
+- Associate Editor, _Public Finance Review_ (2017-2020)
 - National Science Foundation grant reviewer
 - SIOE/ISNIE Board of Directors (2014-2016)
 - Technical advisor to government agencies on foreign influence operations (2018-present)

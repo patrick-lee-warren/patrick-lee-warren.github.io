@@ -33,7 +33,7 @@ Before Clemson, he earned a Ph.D. in Economics from MIT (2008) and a Bachelor of
 Sciences from the South Carolina Honors College (2001). He has also held visiting appointments at
 Northwestern (Kellogg) and RAND.
 
-He has served as Associate Editor of *Public Finance Review*, on the SIOE/ISNIE board, and as a
+He has served as Associate Editor of _Public Finance Review_, on the SIOE/ISNIE board, and as a
 technical advisor to public-sector organizations on foreign influence and information operations.
 
 For a full publication list, see the publications and working papers pages (or Google Scholar).
