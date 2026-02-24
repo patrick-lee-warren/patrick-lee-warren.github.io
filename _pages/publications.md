@@ -13,9 +13,6 @@ nav_order: 3
 
 {% include bib_search.liquid %}
 
-<p>Publications are synced automatically from Google Scholar. If the list is empty, run
-<code>python scripts/update_publications.py</code> to refresh the bibliography.</p>
-
 <div class="publications">
 
 {% bibliography %}
