@@ -1,0 +1,473 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% Simple LaTeX CV Template %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NOTE: If you find that it says                                     %%
+%%                                                                    %%
+%%                           1 of ??                                  %%
+%%                                                                    %%
+%% at the bottom of your first page, this means that the AUX file     %%
+%% was not available when you ran LaTeX on this source. Simply RERUN  %%
+%% LaTeX to get the ``??'' replaced with the number of the last page  %%
+%% of the document. The AUX file will be generated on the first run   %%
+%% of LaTeX and used on the second run to fill in all of the          %%
+%% references.                                                        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't like 10pt? Try 11pt or 12pt
+\documentclass[10pt]{article}
+
+% This is a helpful package that puts math inside length specifications
+\usepackage{calc}
+
+% Simpler bibsection for CV sections
+% (thanks to natbib for inspiration)
+\makeatletter
+\newlength{\bibhang}
+\setlength{\bibhang}{1em}
+\newlength{\bibsep}
+ {\@listi \global\bibsep\itemsep \global\advance\bibsep by\parsep}
+\newenvironment{bibsection}
+    {\minipage[t]{\linewidth}\list{}{%
+        \setlength{\leftmargin}{\bibhang}%
+        \setlength{\itemindent}{-\leftmargin}%
+        \setlength{\itemsep}{\bibsep}%
+        \setlength{\parsep}{\z@}%
+        }}
+    {\endlist\endminipage}
+\makeatother
+
+% Layout: Puts the section titles on left side of page
+\reversemarginpar
+
+%
+%         PAPER SIZE, PAGE NUMBER, AND DOCUMENT LAYOUT NOTES:
+%
+% The next \usepackage line changes the layout for CV style section
+% headings as marginal notes. It also sets up the paper size as either
+% letter or A4. By default, letter was used. If A4 paper is desired,
+% comment out the letterpaper lines and uncomment the a4paper lines.
+%
+% As you can see, the margin widths and section title widths can be
+% easily adjusted.
+%
+% ALSO: Notice that the includefoot option can be commented OUT in order
+% to put the PAGE NUMBER *IN* the bottom margin. This will make the
+% effective text area larger.
+%
+% IF YOU WISH TO REMOVE THE ``of LASTPAGE'' next to each page number,
+% see the note about the +LP and -LP lines below. Comment out the +LP
+% and uncomment the -LP.
+%
+% IF YOU WISH TO REMOVE PAGE NUMBERS, be sure that the includefoot line
+% is uncommented and ALSO uncomment the \pagestyle{empty} a few lines
+% below.
+%
+
+%% Use these lines for letter-sized paper
+\usepackage[paper=letterpaper,
+            %includefoot, % Uncomment to put page number above margin
+            marginparwidth=1.2in,     % Length of section titles
+            marginparsep=.05in,       % Space between titles and text
+            margin=1in,               % 1 inch margins
+            includemp]{geometry}
+
+%% Use these lines for A4-sized paper
+%\usepackage[paper=a4paper,
+%            %includefoot, % Uncomment to put page number above margin
+%            marginparwidth=30.5mm,    % Length of section titles
+%            marginparsep=1.5mm,       % Space between titles and text
+%            margin=25mm,              % 25mm margins
+%            includemp]{geometry}
+
+%% More layout: Get rid of indenting throughout entire document
+\setlength{\parindent}{0in}
+
+%% This gives us fun enumeration environments. compactitem will be nice.
+\usepackage{paralist}
+
+%% Reference the last page in the page number
+%
+% NOTE: comment the +LP line and uncomment the -LP line to have page
+%       numbers without the ``of ##'' last page reference)
+%
+% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
+%       numbers (make sure includefoot is commented out above)
+%
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+%\pagestyle{empty}      % Uncomment this to get rid of page numbers
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset{\marginparsep+\marginparwidth}
+\newlength{\footpageshift}
+\setlength{\footpageshift}
+          {0.5\textwidth+0.5\marginparsep+0.5\marginparwidth-2in}
+\lfoot{\hspace{\footpageshift}%
+       \parbox{4in}{\, \hfill %
+                    \arabic{page} of \protect\pageref*{LastPage} % +LP
+%                    \arabic{page}                               % -LP
+                    \hfill \,}}
+
+% Finally, give us PDF bookmarks
+\usepackage{color,hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The title (name) with a horizontal rule under it
+%
+% Usage: \makeheading{name}
+%
+% Place at top of document. It should be the first thing.
+\newcommand{\makeheading}[1]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+                {\large \bfseries #1}\\[-0.15\baselineskip]%
+                 \rule{\columnwidth}{1pt}%
+         \end{minipage}}
+
+% The section headings
+%
+% Usage: \section{section name}
+%
+% Follow this section IMMEDIATELY with the first line of the section
+% text. Do not put whitespace in between. That is, do this:
+%
+%       \section{My Information}
+%       Here is my information.
+%
+% and NOT this:
+%
+%       \section{My Information}
+%
+%       Here is my information.
+%
+% Otherwise the top of the section header will not line up with the top
+% of the section. Of course, using a single comment character (%) on
+% empty lines allows for the function of the first example with the
+% readability of the second example.
+\renewcommand{\section}[2]%
+        {\pagebreak[2]\vspace{1.3\baselineskip}%
+         \phantomsection\addcontentsline{toc}{section}{#1}%
+         \hspace{0in}%
+         \marginpar{
+         \raggedright \scshape #1}#2}
+
+% An itemize-style list with lots of space between items
+\newenvironment{outerlist}[1][\enskip\textbullet]%
+        {\begin{itemize}[#1]}{\end{itemize}%
+         \vspace{-.6\baselineskip}}
+
+% An environment IDENTICAL to outerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{lonelist}[1][\enskip\textbullet]%
+        {\vspace{-\baselineskip}\begin{list}{#1}{%
+        \setlength{\partopsep}{0pt}%
+        \setlength{\topsep}{0pt}}}
+        {\end{list}\vspace{-.6\baselineskip}}
+
+% An itemize-style list with little space between items
+\newenvironment{innerlist}[1][\enskip\textbullet]%
+        {\begin{compactitem}[#1]}{\end{compactitem}}
+
+% An environment IDENTICAL to innerlist that has better pre-list spacing
+% when used as the first thing in a \section
+\newenvironment{loneinnerlist}[1][\enskip\textbullet]%
+        {\vspace{-\baselineskip}\begin{compactitem}[#1]}
+        {\end{compactitem}\vspace{-.6\baselineskip}}
+
+% To add some paragraph space between lines.
+% This also tells LaTeX to preferably break a page on one of these gaps
+% if there is a needed pagebreak nearby.
+\newcommand{\blankline}{\quad\pagebreak[2]}
+
+% Uses hyperref to link DOI
+\newcommand\doilink[1]{\href{http://dx.doi.org/#1}{#1}}
+\newcommand\doi[1]{doi:\doilink{#1}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\makeheading{Patrick L.~Warren\hfill \textbf{September, 2025}}
+
+\section{Contact Information}
+%
+% NOTE: Mind where the & separators and \\ breaks are in the following
+%       table.
+%
+% ALSO: \rcollength is the width of the right column of the table
+%       (adjust it to your liking; default is 1.85in).
+%
+\newlength{\rcollength}\setlength{\rcollength}{3in}%
+%
+\begin{tabular}[t]{@{}p{\textwidth-\rcollength}p{\rcollength}}
+\href{http://www.clemson.edu/econ/}%
+     {John E. Walker Dept. of Economics} &
+\href{http://pwarren.people.clemson.edu/}{http://pwarren.people.clemson.edu/} \\
+\href{http://www.clemson.edu/}{Clemson University}
+                           & \textit{Office:} (864) 656-4340 \\
+228 Sirrine Hall            & \textit{Fax:} (864) 656-4192 \\
+Clemson, SC 29634 USA & \textit{E-mail:}
+\href{mailto:patrick.lee.warren@gmail.com}{patrick.lee.warren@gmail.com}\\
+    & \\
+\end{tabular}
+
+
+\section{Biography}
+%
+Patrick Warren is a professor of economics who has been at Clemson since 2008. Before coming to Clemson, he studied at MIT, earning a Ph.D. in economics (2008), and an undergraduate degree from the South Carolina Honors College (BArSc, 2001). His research investigates the operation of organizations in the economy — for-profit and non-profit firms, bureaucracies, political parties and even armies. He has written numerous peer-reviewed articles in top economics and law journals and currently serves as an associate editor of the Public Finance Review. He has served on the board of the Society for Institutional and Organizational Economics, been a visiting associate professor at Northwestern University and a visiting scholar at the RAND Corporation.
+%
+
+\section{Current Employment}
+\href{http://www.clemson.edu}{\textbf{Clemson University}}, John E. Walker Dept. of Economics
+\begin{outerlist}
+\item[]\textit{Faculty Director -- Media Forensics Hub}%
+\hfill \textbf{September, 2020 to Present}
+\item[]\textit{Professor}%
+\hfill \textbf{August, 2022 to Present}
+\item[]\textit{Associate Professor}%
+\hfill \textbf{August, 2014 to August, 2022}
+\item[] \textit{Assistant Professor}%
+    \hfill \textbf{August 2008 to August, 2014}
+\end{outerlist}
+
+\section{Prior Employment}
+\href{http://www.kellogg.northwestern.edu/}{\textbf{Kellogg School of Management, Northwestern University}}
+\begin{outerlist}
+\item[] \textit{Visiting Associate Professor}%
+    \hfill \textbf{2016}
+\end{outerlist}
+
+
+\href{http://www.rand.org}{\textbf{The Rand Corporation}}
+\begin{outerlist}
+\item[] \textit{Adjunct Economist}%
+    \hfill \textbf{2013}
+\end{outerlist}
+
+
+\section{Education}
+\begin{outerlist}
+\item{}\href{http://www.mit.edu/}{\textbf{Massachusetts Institute of Technology (MIT)}},
+
+\begin{innerlist}
+\item[] Ph.D.,
+        \href{http://econ-www.mit.edu/}
+             {Economics}
+             2004-2008
+
+             ``Three Essays in Political Economy''
+
+             Committee: Daron Acemoglu, Bob Gibbons, and Jim Snyder
+\end{innerlist}
+\item{}\href{http://schc.sc.edu/}{\textbf{South Carolina Honors College, University of South Carolina}}
+\begin{innerlist}
+\item[] Bachelor of Arts and Sciences, magna cum laude, 2001
+\item[] Philosophy, Mathematics, and Rhetoric
+\end{innerlist}
+
+\end{outerlist}
+
+\section{Peer Reviewed Research Output}
+\begin{outerlist}
+
+
+    \item[] ``Generative propaganda: Evidence of AI’s impact from a state-backed disinformation campaign'' \quad \emph{with Carl Ehrett, Darren Linvill, and Morgan Wack  }\textbf{Proceedings of the National Academy of Science -- Nexus} (April, 2025)
+
+    \item[] ``Unsupervised detection of coordinated information operations in the wild'' \quad \emph{with Carl Ehrett and Hudson Smith } \quad \textbf{EPJ Data Science}  (March, 2025)
+    
+    \item[] ``Where do Trolls Say They Are?: Understanding Targeting in Nation State Information Operations'' \quad \emph{with Darren Linvill, Jayson Warren, Patrick Warren, and David White } \textbf{International Journal of Public Opinion Research} (Autumn, 2024)
+
+            \item[] ``Paths to Influence'' \quad \emph{with Darren Linvill} \quad  in collected volume \emph{Cancel Culture and Brand Boycotts: The Dark Side of Social Media for Brands} Routledge  (2024)
+
+       \item[] ``Firearms and Lynching'' \quad \emph{with Michael D. Makowsky} \textbf{Journal of Law and Economics} (May, 2023)
+
+       \item[] ``The Spot the Troll Quiz Game Increases Accuracy in Discerning Between Real and Inauthentic Social Media Accounts'' \quad \emph{with Jeff Lees, John Banas, Darren Linvill, and Patrick Meirick} \textbf{Proceedings of the National Academy of Science -- Nexus} (April, 2023)
+
+       \item[] ``Talking to Trolls—How Users Respond to a Coordinated Information Operation and Why They’re So Supportive'' \quad \emph{with Darren Linvill and Amanda Moore} \textbf{Journal of Computer-Mediated Communication} (January, 2022)
+
+       \item[] ``Inauthentic Newsfeeds and Agenda Setting in a Coordinated Inauthentic Information Operations'' \quad \emph{with Carl Ehrett, Darren Linvill, Hudson Smith, Leya Bellamy, Mariana Moawad, Olivia Moran, and Monica Moody} \textbf{Social Science Computer Review} (June, 2021)
+
+       \item[] ``An Equilibrium Theory of Retirement Plan Design'' \quad \emph{with Ryan Bubb} \textbf{American Economic Journal: Economic Policy} (May, 2020)
+
+\item [] ``Engaging with others: How the IRA coordinated information operation made friends.'' \quad \emph{with Darren Linvill} \textbf{HKS Misinformation Review} (April, 2020)
+
+\item [] ``Troll Factories: Manufacturing Specialized Disinformation on Twitter'' \quad \emph{with Darren Linvill} \textbf{Journal of Political Communication} (February, 2020)
+
+    \item[] ``The Russians are Hacking My Brain!” Investigating Russia’s Internet Research Agency Twitter Tactics during the 2016 United
+States Presidential Campaign'' \quad \emph{with Darren Linvill, Brandon Boatwright, and Will Grant} \textbf{Computers in Human Behavior} (October, 2019)
+
+    \item[] ``Cost versus Control: Understanding Ownership Through Outsourcing in Hospitals'' \quad \emph{with Christina Marsh Dalton} \textbf{Journal of Health Economics} (July, 2016)
+
+    \item[] ``A Behavioral Contract Theory Perspective on Retirement Savings '' \quad \emph{with Ryan Bubb and Patrick Corrigan} \textbf{Connecticut Law Review} (July, 2015)
+
+    \item[] ``Will Governments Fix What Markets Cannot? Overconfidence and the Demand for Regulation'' \quad \emph{with Dan Wood} \textbf{Journal of the European Economic Association} (December, 2014)
+
+    \item[] ``Contracting Officer Workload, Endogenously Incomplete Contracting, and Contractual Terms: Theory and Evidence'' \quad \textbf{RAND Journal of Economics} (Summer, 2014)
+
+
+    \item[] ``Sunshine as Disinfectant: The Effect of State Freedom of Information Act Laws on Public Corruption,'' \quad \emph{with Adriana Cordis} \textbf{Journal of Public Economics} (July, 2014)
+
+
+    \item[] ``Optimal Agency Bias and Regulatory Review'' \quad \emph{with Ryan Bubb} \textbf{Journal of Legal Studies} (January, 2014)
+
+
+    \item[] ``Party Politics, Governors, and Economic Policy'' \emph{with Per Fredrikkson and Le Wang}. \quad \textbf{Southern Economic Journal} (July,  2013)
+
+    \item[] ``Regulatory Fog: The Role of Information in  Regulatory Persistence'' \quad \emph{with Tom S. Wilkening}  \textbf{Journal of Economic Behavior and Organization} (Dec., 2012)
+
+    \item[] ``Volunteer Militaries, The Draft, and Support for War''\quad \textbf{Economics and Politics}  (Nov., 2012)
+
+    \item[] ``Allies and Adversaries: The Roles of Appointees in Administrative Policymaking in a Separation of Powers System'' \quad \textbf{Journal of Law, Economics, and Organization}. (Aug., 2012).
+
+    \item[] ``Third Party Auditors and Electoral Accountability''\quad  \textbf{Journal of Public Economics}.   (Jan.- Feb., 2012)
+
+\end{outerlist}
+\section{Working Papers}
+\begin{outerlist}
+    \item[] ``Basic Income and the Dynamics of Employment and Human Capital in a Non-Urban Disadvantaged Setting''
+ \quad \emph{with Jorge García and Reed Watson} \quad (June, 2025)
+    \item[] ``Understanding Discrimination in College Admissions: A Field Experiment'' \quad \emph{with V Melo, H Vaca Pereira Rocha, L Sigaud, PL Warren, SM Gaddis} \quad (October, 2024)
+    \item[] ``The Effectiveness of Management Practices in Public and Private Primary Schools'' \quad \emph{with Ben Harbolt} \quad (September, 2019)
+    \item[] ``Where Does Management Matter?: The Effect of Management on Outcomes in Public and Private Schools around the World'' \quad \emph{with Ben Harbolt} \quad (September, 2019)
+    \item[] ``Forensic Laboratory Independence, Control, and Exonerations'' \quad \emph{with Benjamin Schwall} \quad (June, 2018)
+\end{outerlist}
+
+\section{External Research Funding}
+
+\begin{outerlist}
+\item \emph{Empowering the Future of Research in Disinformation (2023) (\$3,797,507)}
+\item \emph{National Science Foundation: Convergence Accelerator Project, Phase II (2022) (\$600,000 (Clemson) of overall budget of \$3,800,000)}
+\item \emph{A Survey of Public-Oriented Organizations Analyzing Social-Media Disinformation} (2022) Institute for the Information Environment (\$25,000)
+\item \emph{DART: Deception Awareness and Resilience Training. Convergence Accelerator Project, Phase I} (2021) National Science Foundation (\$150,000 (Clemson) of overall budget of \$750,000)
+\item \emph{Euro-American Disinformation Research Workshop} (2021) NATO (\$15,000)
+\item \emph{Tracking Russian Messaging around COVID-19 in Africa and Latin America (2021)} Carnegie Foundation for International Peace (\$60,000)
+\item \emph{Disinfo @Clemson Visiting Research Professor (2020-2022)} Charles Koch Foundation (\$150,000)
+\item \emph{Troll Quiz Project (2020)} Committee on Philanthropy (\$55,000)
+\item \emph{The Russian Troll Factory: Indirect Agenda Setting  (2019)} Charles Koch Foundation (\$50,573)
+\item \emph{Coordinated Disinformation (2018)} Epic Games Foundation  (\$20,000)
+\item \emph{The Effects of Limited Contracting Capacity on Contracting Outcomes (2011-2012)} Naval Postgraduate School Acquisition Research Program under Grant No.N00244-11-1-0025. (\$99,000)
+\end{outerlist}
+
+\section{Internal Research Funding}
+
+\begin{outerlist}
+\item \emph{Clemson University Research Faculty and Postdoctoral Research Support Grant} (2022) Clemson R-Initiative Funding  (\$150,000)
+\item \emph{Determining the Causal Relationship between Gun Ownership and State-Sponsored Violence (2011)} EUREKA Summer Research Project for Undergraduates \emph{ with students Ismael Hernandez-Cruz and Kelly Moran.} (\$1,400)
+    \item \emph{Determining the Causal Relationship between Gun Ownership and State-Sponsored Violence (2014)} EUREKA Summer Research Project for Undergraduates \emph{ with student Grace Glenn.} (\$700)
+
+\end{outerlist}
+
+\section{Awards and Honors}
+%
+
+\begin{innerlist}
+
+\item {Interdisciplinary Research Award, College of Business}, 2019
+\item {President's Leadership Institute} 2017
+\item \href{http://www.nsf.gov/}{National Science Foundation Graduate Research Fellowship}, 2004
+\item Phi Beta Kappa, 1999
+\end{innerlist}
+
+\section{Teaching Experience}
+\begin{outerlist}
+\item{}\href{http://www.clemson.edu/}{\textbf{Clemson University}},
+\begin{innerlist}
+
+\item[] \textit{Honors Principles of Microeconomics (2013-2014)}%
+
+\item[] \textit{Honors Seminar on Economic Crises (2015)}%
+
+\item[] \textit{Intermediate Microeconomics (Annually, 2008-Present)}%
+
+\item[] \textit{Undergraduate Public Choice (2008)}%
+
+\item[] \textit{Graduate Public Choice (Annually, 2009-Present)}%
+
+\item[] \textit{CI: Watson at the Watt (2019-2020), Media Forensics Hub Open-Source Investigations (2020-Present)}%
+
+\item[] \textit{Thesis Supervisor:} Justin Knutter (M.A.), Grace Heyne (B.A.), Ghanshayam Sharma (Ph.D.), Andrew Swanson (Ph.D.), Alex Fiore (Ph.D), Jordan Adamson (Ph.D.), Leah Kitashima (Ph.D), Qiwei He (Ph.D.), Maria Droganova (Ph.D.), Roksana Ghanbariamin (Ph.D.), Kelsey Roberts (Ph.D.), Haibin Jiang (Ph.D.), Shilpi Mukherjee (Ph.D.),  Shubhashrita Basu (Ph.D.), Cory Simpkins (Ph.D.) %
+\item[] \textit{Dissertation Committee:} Bryan Buckley, Richard Bruns, Yukun Sun, Tim Bersak, Cesar Castellon, Ben Schwall, Chen Wang, Yuvaluck Setboonsrung, Ben Harbolt   %
+
+\end{innerlist}
+
+\item{}\href{http://www.mit.edu/}{\textbf{Massachusetts Institute of Technology (MIT)}},
+\begin{innerlist}
+
+\item[] \textit{T.A., Graduate Collective Choice }%
+        \hfill \textbf{Fall, 2007}
+
+\item[] \textit{T.A., Graduate Statistical Methods }%
+        \hfill \textbf{Spring, 2008}
+\end{innerlist}
+\item{}\href{http://www.peacecorps.gov/}{\textbf{The Peace Corps, Edea, Cameroun}},
+\begin{innerlist}
+    \item[]\textit{Math and English Secondary School Teacher}
+                \hfill \textbf{2002-2003}
+\end{innerlist}
+
+\end{outerlist}
+
+\blankline
+
+\section{Service:Institutional}
+\begin{outerlist}
+\item[] \textbf{University:}  Faculty Senator (2018-2021), Chair of Faculty Senate Research Committee (2019-2021), Associate Vice-President for Research Search (2019), Dean of Graduate School Search (2020), ongoing presentations for President and Development offices (2018-), University Research Grant/SEED Committee (2016-2018), Honors College Oversight Committee (2013-2016)
+\item[] \textbf{College:} CoB Strategic Planning for Inclusive Excellence Committee (2019-2020), Senior Associate Dean Search (2019-2020), Trevillian Distinguished Professor Review Committee (2017), Gressette Chair Search (2016),
+\item[] \textbf{Department:} Department Chair Review Committee (2018), Undergraduate Adviser (2010-)
+\end{outerlist}
+
+\section{Service:Professional}
+\begin{outerlist}
+\item[] \textbf{Associate Editor:} Public Finance Review (2017-2020)
+\item[] \textbf{Referee:} Review of Economics and Statistics, American Political Science Review, Journal of Law and Economics, Review of Agricultural Economics, Journal of Public Economics, Journal of Economics and Management Studies, American Journal of Political Science, RAND Journal of Economics, Southern Economic Journal, Quarterly Journal of Economics, Public Choice
+\item[] \textbf{Conference Organizer:} Data Analytics for Non-Profit Symposium (2018)
+\item[] \textbf{Grant Reviewer:} National Science Foundation
+\item[] \textbf{Outside Project Reviewer:} RAND
+\item[] \textbf{Conference Program Committee:} ISNIE/SIOE (2013,2014, 2016)
+\item[] \textbf{Elected:} ISNIE/SIOE Board of Directors (2014-2016)
+\end{outerlist}
+
+\section{Service:Public/Community}
+\begin{outerlist}
+\item[] \textbf{Technical Advisor to Government Agencies (2018-Present):} Senate Select Intelligence Committee, Department of Homeland Security Countering Foreign Interference Task Force, U.S. Army Cyber Command, Federal Bureau of Investigation -- Foreign Influence Operations Task Force
+\item[] \textbf{Community Presentations:} Rotary Clubs of Clemson and Greenville, World Affairs Council Upstate, Piedmont Economics Club, TPI Two-Think Minimum Podcast, Yahoo News Podcast, CBC News Podcast
+\item[] \textbf{Select Public Writings:}
+\begin{innerlist}
+
+\item[] ``Custer's Last Tweet: Avoiding a Digital Little Bighorn in the Fight for Hearts and Minds'' with Jayson Warren and Darren Linvill \textit{Irregular Warfare Institute}, 4/5/23. \href{https://irregularwarfare.org/articles/custers-last-tweet-avoiding-a-digital-little-bighorn-in-the-fight-for-hearts-and-minds/}{\textbf{Link}}.%
+
+\item[] ``Interpreting the ‘Twitter Files’: Lessons About External Influence on Content Moderation'' with Darren Linvill \textit{Lawfare}, 2/7/23. \href{https://www.lawfaremedia.org/article/interpreting-the-twitter-files-lessons-about-external-influence-on-content-moderation}{\textbf{Link}}.%
+
+\item[] ``Understanding the Pro-China Propaganda and Disinformation Tool Set in Xinjiang'' with Darren Linvill \textit{Lawfare}, 12/1/21. \href{https://www.lawfaremedia.org/article/understanding-pro-china-propaganda-and-disinformation-tool-set-xinjiang/}{\textbf{Link}}.%
+
+\item[] ``That uplifting tweet you just sent? A Russian troll sent it.'' with Darren Linvill \textit{Rolling Stone} 11/25/19. \href{https://www.rollingstone.com/politics/politics-features/russia-troll-2020-election-interference-twitter-916482/}{\textbf{Link}}%
+
+\item[] ``Students need to learn how trolls and bots stir up online divisions.'' with Darren Linvill \textit{Times Higher Education} 9/5/19 \href{https://www.timeshighereducation.com/opinion/students-need-learn-how-trolls-and-bots-stir-online-divisions}{\textbf{Link}}%
+
+\item[] ``Russian trolls can be surprisingly subtle, and often fun to read.'' with Darren Linvill \textit{The Washington Post} 3/8/19. \href{https://www.washingtonpost.com/outlook/russian-trolls-can-be-surprisingly-subtle-and-often-fun-to-read/2019/03/08/677f8ec2-413c-11e9-9361-301ffb5bd5e6_story.html?utm_term=.24190cfac7b4}{\textbf{Link}}.%
+
+\end{innerlist}
+\end{outerlist}
+
+\section{Presentations}
+\begin{outerlist}
+\item[] \textbf{Invited Seminars:} Institute for Defense Analyses (2007), Clemson University(2008), NC State University (2008), College of William and Mary (2008), Washington and Lee University(2008), Vanderbilt University(2008), University of South Carolina (2008,2012), University of Louisville (2008), University of Georgia (2009), Columbia University (2009), University of Southern California (2010), Emory University (2011), MIT (2012), ESNIE (2012), Appalachian State University (2013), Emory (2014), MIT (2015), Duke University (2016), Tilburg University (2016), Berkeley Org. Econ Semianr (2017), NYU SMAPP/Jordan Center (2018), Army Cyber Command (2019,2020), DHS Cyber Summit (2019), Clemson Board of Trustees (2020), National Academy of Science (2020)
+\item[] \textbf{Peer-Reviewed Conferences:} Eastern Economic Association (2004), NBER Graduate Student Political Economy Conference(2007), Southern Political Science Association (2008), Midwest Political Science Association (2009), Southern Economic Association (2009,2012), International Society for New Institutional Economics (2010--2013), Western Economic Association(2010--2012), First Global Conference on Transparency Research (2011), Bonn Conference on Gaming Incentive Systems (2011), IIOC(2012), ASSA Annual Meeting (2013), Chaire-EPPP Conference on Public Procurement (2013), Vienna Conference on Public Orgnizations (2014), Conference on Empirical Legal Studies (2016), Society for Institutional and Organizational Economics (2014-2019, 2020 cancelled), Technology Policy Research Conference (2019)
+\end{outerlist}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% End CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
