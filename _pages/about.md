@@ -13,7 +13,7 @@ profile:
     <p>Professor, John E. Walker Department of Economics</p>
     <p>309F Powers Hall</p>
     <p>Clemson, SC</p>
-    <p>(864) 656-4340</p>
+    <p>864-656-3481</p>
     <p><a href="mailto:patrick.lee.warren@gmail.com">patrick.lee.warren@gmail.com</a></p>
 
 news: false # includes a list of news items
