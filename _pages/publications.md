@@ -15,6 +15,6 @@ nav_order: 3
 
 <div class="publications">
 
-{% bibliography --query @*[keywords!=working-paper]* %}
+{% bibliography %}
 
 </div>
