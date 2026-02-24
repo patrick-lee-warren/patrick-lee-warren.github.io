@@ -74,7 +74,7 @@
       {%- endfor -%}
       {% comment %}Posts intentionally excluded from Ctrl+K search for this site.{% endcomment %}
       {%- for collection in site.collections -%}
-        {%- if collection.label != 'posts' -%}
+        {%- if collection.label != 'posts' and collection.label != 'projects' -%}
           {%- for item in collection.docs -%}
             {
               {%- if item.inline -%}
