@@ -5,12 +5,10 @@ title: cv
 nav: true
 nav_order: 5
 cv_pdf:
-description: Selected CV information (updated from `pwarren_cv091625.tex`).
+description: Selected CV information.
 toc:
   sidebar: left
 ---
-
-This page summarizes the current CV source in [`pwarren_cv091625.tex`]({{ '/pwarren_cv091625.tex' | relative_url }}) (September 2025).
 
 ## Current Appointments
 
@@ -64,4 +62,4 @@ This page summarizes the current CV source in [`pwarren_cv091625.tex`]({{ '/pwar
 - Multiple external and internal grants supporting media forensics and organizational research
 
 For the complete record (including full funding, service, and presentation lists), use the
-publications and working papers pages or consult the CV source file in this repository.
+publications and working papers pages.
