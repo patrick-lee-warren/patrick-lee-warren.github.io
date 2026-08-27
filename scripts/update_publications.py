@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import pathlib
+import re
 import sys
 
 import yaml
@@ -16,6 +17,56 @@ def load_scholar_id(config_path: pathlib.Path) -> str:
     return scholar_id
 
 
+def _bibtex_escape(value: str) -> str:
+    """Escape the characters that have special meaning in a BibTeX value."""
+    return (
+        value.replace("\\", "\\textbackslash{}")
+        .replace("{", "\\{")
+        .replace("}", "\\}")
+        .replace("&", r"\&")
+        .replace("%", r"\%")
+        .replace("#", r"\#")
+        .replace("_", r"\_")
+    )
+
+
+def _entry_key(title: str, year: object, index: int) -> str:
+    stem = re.sub(r"[^a-z0-9]+", "", title.lower())[:32] or "publication"
+    year_stem = re.sub(r"[^a-z0-9]+", "", str(year).lower()) or "nd"
+    return f"scholar{year_stem}{stem}{index}"
+
+
+def _publication_to_bibtex(publication: dict, index: int) -> str:
+    bib = publication.get("bib", {})
+    title = str(bib.get("title", "Untitled publication"))
+    # Jekyll Scholar expects every entry to have a numeric year when grouping
+    # the bibliography. Google Scholar occasionally omits it for older records.
+    year = bib.get("pub_year") or 0
+    citation = str(bib.get("citation", ""))
+    journal = bib.get("journal")
+    authors = bib.get("author")
+    fields = [("title", title)]
+    if authors:
+        fields.append(("author", str(authors)))
+    if journal:
+        fields.append(("journal", str(journal)))
+    fields.append(("year", str(year)))
+    if not bib.get("pub_year"):
+        fields.append(("note", "Publication year not listed by Google Scholar"))
+    if not journal and citation:
+        fields.append(("note", citation))
+    if publication.get("pub_url"):
+        fields.append(("url", str(publication["pub_url"])))
+    rendered = [f"@article{{{_entry_key(title, year, index)},"]
+    rendered.extend(f"  {name}={{{_bibtex_escape(value)}}}" for name, value in fields)
+    rendered.append("}")
+    # Add commas between fields, but not after the final field.
+    for position in range(1, len(rendered) - 1):
+        if not rendered[position].endswith(","):
+            rendered[position] += ","
+    return "\n".join(rendered)
+
+
 def fetch_bibtex_entries(scholar_id: str) -> list[str]:
     author = scholarly.search_author_id(scholar_id)
     author = scholarly.fill(author, sections=["publications"])
@@ -24,7 +75,7 @@ def fetch_bibtex_entries(scholar_id: str) -> list[str]:
     for publication in author.get("publications", []):
         try:
             filled = scholarly.fill(publication)
-            entries.append(scholarly.bibtex(filled))
+            entries.append(_publication_to_bibtex(filled, len(entries) + 1))
         except Exception as exc:
             print(f"Warning: failed to fetch publication: {exc}", file=sys.stderr)
     return entries
