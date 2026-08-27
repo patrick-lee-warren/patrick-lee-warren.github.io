@@ -36,6 +36,12 @@ def _entry_key(title: str, year: object, index: int) -> str:
     return f"scholar{year_stem}{stem}{index}"
 
 
+EXCLUDED_TITLES = {
+    "sunshineasdisinfectantfoialawsandpubliccorruption",
+    "asurveyofpublicorientedorganizationsanalyzingsocialmediadisinformation",
+}
+
+
 def _publication_to_bibtex(publication: dict, index: int) -> str:
     bib = publication.get("bib", {})
     title = str(bib.get("title", "Untitled publication"))
@@ -57,8 +63,6 @@ def _publication_to_bibtex(publication: dict, index: int) -> str:
     if journal:
         fields.append(("journal", str(journal)))
     fields.append(("year", str(year)))
-    if not bib.get("pub_year"):
-        fields.append(("note", "Publication year not listed by Google Scholar"))
     if not journal and citation:
         fields.append(("note", citation))
     if publication.get("pub_url"):
@@ -79,6 +83,10 @@ def fetch_bibtex_entries(scholar_id: str) -> list[str]:
 
     entries: list[str] = []
     for publication in author.get("publications", []):
+        title = str(publication.get("bib", {}).get("title", ""))
+        normalized_title = re.sub(r"[^a-z0-9]+", "", title.lower())
+        if normalized_title in EXCLUDED_TITLES:
+            continue
         try:
             filled = scholarly.fill(publication)
             entries.append(_publication_to_bibtex(filled, len(entries) + 1))
