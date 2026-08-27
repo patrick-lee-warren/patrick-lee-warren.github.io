@@ -46,6 +46,8 @@ def _publication_to_bibtex(publication: dict, index: int) -> str:
     journal = bib.get("journal")
     if journal and str(journal).lower() == "pnas nexus":
         journal = "PNAS Nexus"
+    if journal and str(journal).lower() == "journal of health economics":
+        journal = "Journal of Health Economics"
     authors = bib.get("author")
     fields = [("title", title)]
     if authors:
