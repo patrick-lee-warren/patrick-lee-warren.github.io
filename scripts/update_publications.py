@@ -44,6 +44,8 @@ def _publication_to_bibtex(publication: dict, index: int) -> str:
     year = bib.get("pub_year") or 0
     citation = str(bib.get("citation", ""))
     journal = bib.get("journal")
+    if journal and str(journal).lower() == "pnas nexus":
+        journal = "PNAS Nexus"
     authors = bib.get("author")
     fields = [("title", title)]
     if authors:
