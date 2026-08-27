@@ -39,9 +39,9 @@ def _entry_key(title: str, year: object, index: int) -> str:
 def _publication_to_bibtex(publication: dict, index: int) -> str:
     bib = publication.get("bib", {})
     title = str(bib.get("title", "Untitled publication"))
-    # Jekyll Scholar expects every entry to have a year when grouping the
-    # bibliography. Google Scholar occasionally omits it for older records.
-    year = bib.get("pub_year") or "n.d."
+    # Jekyll Scholar expects every entry to have a numeric year when grouping
+    # the bibliography. Google Scholar occasionally omits it for older records.
+    year = bib.get("pub_year") or 0
     citation = str(bib.get("citation", ""))
     journal = bib.get("journal")
     authors = bib.get("author")
@@ -50,8 +50,9 @@ def _publication_to_bibtex(publication: dict, index: int) -> str:
         fields.append(("author", str(authors)))
     if journal:
         fields.append(("journal", str(journal)))
-    if year:
-        fields.append(("year", str(year)))
+    fields.append(("year", str(year)))
+    if not bib.get("pub_year"):
+        fields.append(("note", "Publication year not listed by Google Scholar"))
     if not journal and citation:
         fields.append(("note", citation))
     if publication.get("pub_url"):
