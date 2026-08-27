@@ -32,13 +32,16 @@ def _bibtex_escape(value: str) -> str:
 
 def _entry_key(title: str, year: object, index: int) -> str:
     stem = re.sub(r"[^a-z0-9]+", "", title.lower())[:32] or "publication"
-    return f"scholar{year or 'nd'}{stem}{index}"
+    year_stem = re.sub(r"[^a-z0-9]+", "", str(year).lower()) or "nd"
+    return f"scholar{year_stem}{stem}{index}"
 
 
 def _publication_to_bibtex(publication: dict, index: int) -> str:
     bib = publication.get("bib", {})
     title = str(bib.get("title", "Untitled publication"))
-    year = bib.get("pub_year")
+    # Jekyll Scholar expects every entry to have a year when grouping the
+    # bibliography. Google Scholar occasionally omits it for older records.
+    year = bib.get("pub_year") or "n.d."
     citation = str(bib.get("citation", ""))
     journal = bib.get("journal")
     authors = bib.get("author")
